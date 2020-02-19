@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,11 +59,12 @@ public class ClienteController {
 	@Transactional
 	public ResponseEntity<ClienteDto> CadastraCliente(@RequestBody @Valid ClienteForm clienteForm, UriComponentsBuilder uriBuilder) {
 		Cliente cliente = clienteForm.converter(cidadeRepository);
-		clienteRepository.save(cliente);
-		URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.getId()).toUri();
-		return ResponseEntity.created(uri).body(new ClienteDto(cliente));
-		
-		
+		if( cliente != null) {
+			clienteRepository.save(cliente);
+			URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.getId()).toUri();
+			return ResponseEntity.created(uri).body(new ClienteDto(cliente));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
 	}
 	
 	@PutMapping("/{id}")

@@ -69,8 +69,11 @@ public class ClienteForm {
 
 	public Cliente converter(CidadeRepository cidadeRepository) {
 		List<Cidade> cidade = cidadeRepository.findByNome(cidadeNome);
-		Cliente cliente = new Cliente(nomeCompleto, sexo, dtNascimento, idade, cidade.get(0));
-		return cliente;
+		if(cidade.size() > 0) {
+			Cliente cliente = new Cliente(nomeCompleto, sexo, dtNascimento, idade, cidade.get(0));
+			return cliente;
+		}
+		return null;
 	}
 	
 	

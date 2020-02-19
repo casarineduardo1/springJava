@@ -29,7 +29,6 @@ public class CidadesController {
 	@GetMapping
 	public List<CidadeDto> listaCidades(String nomeCidade) {
 		List<Cidade> cidades;
-		System.out.println(nomeCidade);
 		if(nomeCidade == null || nomeCidade.isEmpty()) {
 			cidades = cidadeRepository.findAll(); 
 		}else if(nomeCidade.length() == 2) {
